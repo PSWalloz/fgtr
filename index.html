@@ -52,7 +52,7 @@
                     <a href="#features" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Features</a>
                     <a href="#how-it-works" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">How It Works</a>
                     <a href="#support" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Support</a>
-                    <a href="login.html" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Login</a>
+                    <a id="login-btn" href="login.html" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Login</a>
                 </nav>
                 <!-- Profile Button -->
                 <button id="profile-btn" class="w-10 h-10 rounded-full bg-atlas-pink text-white flex items-center justify-center hidden"
@@ -86,15 +86,18 @@
         auth.onAuthStateChanged((user) => {
             const profileBtn = document.getElementById('profile-btn');
             const profileInitials = document.getElementById('profile-initials');
+            const loginBtn = document.getElementById('login-btn');
             
             if (user) {
-                // User is logged in, show profile button
+                // User is logged in, show profile button and hide login button
                 profileBtn.classList.remove('hidden');
+                loginBtn.classList.add('hidden'); // Hide login button
                 const initials = user.displayName ? user.displayName[0].toUpperCase() : 'A';
                 profileInitials.textContent = initials;
             } else {
-                // User is not logged in, hide profile button
+                // User is not logged in, hide profile button and show login button
                 profileBtn.classList.add('hidden');
+                loginBtn.classList.remove('hidden'); // Show login button
             }
         });
     </script>
@@ -155,8 +158,8 @@
             <h2 data-aos="fade-up" class="text-4xl md:text-5xl font-bold text-center mb-20">
                 <span class="gradient-text">How It Works</span>
             </h2>
-            <div class="grid md:grid-cols-3 gap-12 max-w-3xl mx-auto">
-                <div data-aos="fade-right" data-aos-delay="100" class="text-center">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div data-aos="fade-up" class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-r from-atlas-pink to-atlas-accent rounded-full flex items-center justify-center mx-auto mb-6">
                         <span class="text-2xl font-bold">1</span>
                     </div>
