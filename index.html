@@ -54,11 +54,17 @@
                     <a href="#support" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Support</a>
                     <a href="login.html" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Login</a>
                 </nav>
-                <!-- Profile Button -->
-                <button id="profile-btn" class="w-10 h-10 rounded-full bg-atlas-pink text-white flex items-center justify-center hidden"
-                        onclick="window.location.href='dashboard.html'">
-                    <span id="profile-initials">A</span>
-                </button>
+
+                <!-- Profile Button with Dropdown -->
+                <div class="relative">
+                    <button id="profile-btn" class="w-10 h-10 rounded-full bg-atlas-pink text-white flex items-center justify-center hidden">
+                        <span id="profile-initials">A</span>
+                    </button>
+                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg p-2">
+                        <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
+                        <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
@@ -97,10 +103,24 @@
                 profileBtn.classList.add('hidden');
             }
         });
+
+        // Toggle dropdown visibility
+        document.getElementById('profile-btn').addEventListener('click', () => {
+            const dropdown = document.getElementById('profile-dropdown');
+            dropdown.classList.toggle('hidden');
+        });
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            auth.signOut().then(() => {
+                window.location.href = "login.html";
+            });
+        });
     </script>
 
     <!-- Content sections omitted for brevity -->
 
+    <!-- AOS Initialization Script -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
