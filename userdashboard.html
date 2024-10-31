@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -22,8 +26,106 @@
                     }
                 }
             }
+        };
+
+        // Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDS-boVUe0Dqtd7cpbNUNwfe2BamEFKf8U",
+            authDomain: "atlas-97269.firebaseapp.com",
+            projectId: "atlas-97269",
+            storageBucket: "atlas-97269.appspot.com",
+            messagingSenderId: "713166874458",
+            appId: "1:713166874458:web:128b21716134ed73797563",
+            measurementId: "G-SEMYQXNCHY"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // Function to update personal info in Firestore
+        async function updatePersonalInfo(event) {
+            event.preventDefault();
+            const user = auth.currentUser;
+            if (user) {
+                const firstName = document.getElementById("firstName").value;
+                const lastName = document.getElementById("lastName").value;
+                const email = document.getElementById("email").value;
+
+                try {
+                    // Update email
+                    await user.updateEmail(email);
+                    await db.collection("users").doc(user.uid).set({
+                        firstName,
+                        lastName,
+                        email
+                    }, { merge: true });
+                    alert("Profile updated successfully!");
+                } catch (error) {
+                    console.error("Error updating profile:", error);
+                    alert("Error updating profile: " + error.message);
+                }
+            }
+        }
+
+        // Function to update password
+        async function updatePassword(event) {
+            event.preventDefault();
+            const user = auth.currentUser;
+            if (user) {
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
+                const confirmPassword = document.getElementById("confirmPassword").value;
+
+                if (newPassword !== confirmPassword) {
+                    alert("New passwords do not match.");
+                    return;
+                }
+
+                // Reauthenticate the user
+                const credential = firebase.auth.EmailAuthProvider.credential(
+                    user.email,
+                    currentPassword
+                );
+
+                try {
+                    await user.reauthenticateWithCredential(credential);
+                    await user.updatePassword(newPassword);
+                    alert("Password updated successfully!");
+                } catch (error) {
+                    console.error("Error updating password:", error);
+                    alert("Error updating password: " + error.message);
+                }
+            }
+        }
+
+        // Function to save notification settings in Firestore
+        async function saveNotificationSettings(event) {
+            event.preventDefault();
+            const user = auth.currentUser;
+            if (user) {
+                const emailNotifications = document.getElementById("emailNotifications").checked;
+                const smsNotifications = document.getElementById("smsNotifications").checked;
+                const pushNotifications = document.getElementById("pushNotifications").checked;
+
+                try {
+                    await db.collection("users").doc(user.uid).set({
+                        notifications: {
+                            email: emailNotifications,
+                            sms: smsNotifications,
+                            push: pushNotifications
+                        }
+                    }, { merge: true });
+                    alert("Notification settings saved successfully!");
+                } catch (error) {
+                    console.error("Error saving notification settings:", error);
+                    alert("Error saving notification settings: " + error.message);
+                }
+            }
         }
     </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         
@@ -40,80 +142,65 @@
     </style>
 </head>
 <body class="bg-atlas-deep font-['Inter'] antialiased">
-
-    <!-- Main Container for Acount Panel -->
     <div class="max-w-4xl mx-auto my-12 p-6 bg-white rounded-lg shadow-lg">
-
-        <!-- Title for the Account Panel -->
         <h2 class="text-2xl font-semibold text-gray-800 mb-6">Atlas - Account Panel</h2>
-
-        <!-- Account Settings Section -->
+        
         <section id="account-settings">
             <h3 class="text-xl font-bold text-gray-700 mb-4">Account Settings</h3>
-
-            <!-- Personal Information Section -->
             <section id="personal-info" class="mb-10">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Personal Information</h3>
-                <form>
+                <form onsubmit="updatePersonalInfo(event)">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-semibold text-gray-600 mb-2">First Name</label>
-                            <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter first name">
+                            <input type="text" id="firstName" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter first name">
                         </div>
                         <div>
                             <label class="block text-sm font-semibold text-gray-600 mb-2">Last Name</label>
-                            <input type="text" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter last name">
+                            <input type="text" id="lastName" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter last name">
                         </div>
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-semibold text-gray-600 mb-2">Email</label>
-                        <input type="email" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter email address">
-                    </div>
-                    <div class="mt-4">
-                        <label class="block text-sm font-semibold text-gray-600 mb-2">Phone</label>
-                        <input type="tel" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter phone number">
+                        <input type="email" id="email" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter email address">
                     </div>
                     <button type="submit" class="mt-6 bg-atlas-pink text-white py-2 px-4 rounded hover:bg-pink-500 transition duration-200">Save Changes</button>
-                    <button type="button" class="mt-6 ml-4 bg-gray-200 text-gray-600 py-2 px-4 rounded hover:bg-gray-300 transition duration-200">Cancel</button>
                 </form>
             </section>
 
-            <!-- Password Section -->
             <section id="password-settings" class="mb-10">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Password Settings</h3>
-                <form>
+                <form onsubmit="updatePassword(event)">
                     <div class="mt-4">
                         <label class="block text-sm font-semibold text-gray-600 mb-2">Current Password</label>
-                        <input type="password" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter current password">
+                        <input type="password" id="currentPassword" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter current password">
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-semibold text-gray-600 mb-2">New Password</label>
-                        <input type="password" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter new password">
+                        <input type="password" id="newPassword" class="w-full p-2 border border-gray-300 rounded" placeholder="Enter new password">
                     </div>
                     <div class="mt-4">
                         <label class="block text-sm font-semibold text-gray-600 mb-2">Confirm New Password</label>
-                        <input type="password" class="w-full p-2 border border-gray-300 rounded" placeholder="Confirm new password">
+                        <input type="password" id="confirmPassword" class="w-full p-2 border border-gray-300 rounded" placeholder="Confirm new password">
                     </div>
                     <button type="submit" class="mt-6 bg-atlas-pink text-white py-2 px-4 rounded hover:bg-pink-500 transition duration-200">Update Password</button>
-                    <button type="button" class="mt-6 ml-4 bg-gray-200 text-gray-600 py-2 px-4 rounded hover:bg-gray-300 transition duration-200">Cancel</button>
                 </form>
             </section>
 
-            <!-- Notification Settings -->
             <section id="notification-settings">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Notification Settings</h3>
-                <form>
+                <form onsubmit="saveNotificationSettings(event)">
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-600 font-semibold">Email Notifications</label>
-                        <input type="checkbox" class="toggle-checkbox h-6 w-6" checked>
+                        <input type="checkbox" id="emailNotifications" class="toggle-checkbox h-6 w-6" checked>
                     </div>
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-600 font-semibold">SMS Notifications</label>
-                        <input type="checkbox" class="toggle-checkbox h-6 w-6">
+                        <input type="checkbox" id="smsNotifications" class="toggle-checkbox h-6 w-6">
                     </div>
                     <div class="flex items-center justify-between mb-4">
                         <label class="text-gray-600 font-semibold">Push Notifications</label>
-                        <input type="checkbox" class="toggle-checkbox h-6 w-6" checked>
+                        <input type="checkbox" id="pushNotifications" class="toggle-checkbox h-6 w-6" checked>
                     </div>
                     <button type="submit" class="mt-6 bg-atlas-pink text-white py-2 px-4 rounded hover:bg-pink-500 transition duration-200">Save Preferences</button>
                 </form>
@@ -121,6 +208,5 @@
         </section>
         
     </div>
-
 </body>
 </html>
