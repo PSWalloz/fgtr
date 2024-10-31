@@ -54,17 +54,11 @@
                     <a href="#support" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Support</a>
                     <a href="login.html" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Login</a>
                 </nav>
-
-                <!-- Profile Button with Dropdown -->
-                <div class="relative">
-                    <button id="profile-btn" class="w-10 h-10 rounded-full bg-atlas-pink text-white flex items-center justify-center hidden">
-                        <span id="profile-initials">A</span>
-                    </button>
-                    <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg p-2">
-                        <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</a>
-                        <button id="logout-btn" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
-                    </div>
-                </div>
+                <!-- Profile Button -->
+                <button id="profile-btn" class="w-10 h-10 rounded-full bg-atlas-pink text-white flex items-center justify-center hidden"
+                        onclick="window.location.href='dashboard.html'">
+                    <span id="profile-initials">A</span>
+                </button>
             </div>
         </div>
     </header>
@@ -103,24 +97,120 @@
                 profileBtn.classList.add('hidden');
             }
         });
-
-        // Toggle dropdown visibility
-        document.getElementById('profile-btn').addEventListener('click', () => {
-            const dropdown = document.getElementById('profile-dropdown');
-            dropdown.classList.toggle('hidden');
-        });
-
-        // Logout functionality
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            auth.signOut().then(() => {
-                window.location.href = "login.html";
-            });
-        });
     </script>
 
-    <!-- Content sections omitted for brevity -->
+    <!-- hero -->
+    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-radial from-atlas-purple to-atlas-deep pt-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 data-aos="fade-up" data-aos-duration="1000" class="text-6xl md:text-7xl font-bold mb-6">
+                <span class="gradient-text">Unlock</span> Your
+                <br />
+                Roblox Experience
+            </h2>
+            <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-xl md:text-2xl text-white/60 mb-8">
+                Atlas - Making kids cry since 2024
+            </p>
+            <div data-aos="fade-up" data-aos-duration="1000" data-aos-delay="400">
+                <a href="https://gofile.io/d/Sqqso4" class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-atlas-pink to-atlas-accent text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                    Download Now
+                </a>
+            </div>
+        </div>
+    </section>
 
-    <!-- AOS Initialization Script -->
+    <!-- features -->
+    <section id="features" class="py-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-b from-atlas-deep via-atlas-purple to-atlas-deep opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-6 relative">
+            <h2 data-aos="fade-up" class="text-4xl md:text-5xl font-bold text-center mb-20">
+                <span class="gradient-text">Features</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- cards -->
+                <div data-aos="fade-up" data-aos-delay="100" class="group">
+                    <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-atlas-pink/50 transition-all duration-500 hover:transform hover:-translate-y-2">
+                        <h3 class="text-2xl font-semibold mb-4 text-atlas-pink">Speed</h3>
+                        <p class="text-white/60">Execute scripts faster than ever before with our optimized engine.</p>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="group">
+                    <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-atlas-pink/50 transition-all duration-500 hover:transform hover:-translate-y-2">
+                        <h3 class="text-2xl font-semibold mb-4 text-atlas-pink">Stability</h3>
+                        <p class="text-white/60">Say goodbye to crashes and errors with our robust architecture.</p>
+                    </div>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="300" class="group">
+                    <div class="p-8 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 hover:border-atlas-pink/50 transition-all duration-500 hover:transform hover:-translate-y-2">
+                        <h3 class="text-2xl font-semibold mb-4 text-atlas-pink">User-Friendly</h3>
+                        <p class="text-white/60">Designed with you in mind for seamless navigation and usage.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- how section -->
+    <section id="how-it-works" class="py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 data-aos="fade-up" class="text-4xl md:text-5xl font-bold text-center mb-20">
+                <span class="gradient-text">How It Works</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-12 max-w-3xl mx-auto">
+                <div data-aos="fade-right" data-aos-delay="100" class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-atlas-pink to-atlas-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Download</h3>
+                    <p class="text-white/60">Download and install Atlas</p>
+                </div>
+                <div data-aos="fade-up" data-aos-delay="200" class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-atlas-pink to-atlas-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Load</h3>
+                    <p class="text-white/60">Load your favorite scripts</p>
+                </div>
+                <div data-aos="fade-left" data-aos-delay="300" class="text-center">
+                    <div class="w-16 h-16 bg-gradient-to-r from-atlas-pink to-atlas-accent rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Execute</h3>
+                    <p class="text-white/60">Execute and enjoy!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- support -->
+    <section id="support" class="py-32 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 data-aos="fade-up" class="text-4xl md:text-5xl font-bold mb-8">
+                <span class="gradient-text">Support</span>
+            </h2>
+            <p data-aos="fade-up" data-aos-delay="100" class="text-xl text-white/60 mb-8">
+                Need help? We're here for you 24/7.
+            </p>
+            <div data-aos="fade-up" data-aos-delay="200">
+                <a href="https://discord.gg/y536GEwJXc" class="inline-flex items-center px-8 py-4 rounded-full bg-gradient-to-r from-atlas-pink to-atlas-accent text-white font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="py-12 border-t border-white/5 bg-atlas-deep">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-white/40">&copy; 2024 Atlas. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#legal" class="text-white/40 hover:text-atlas-pink transition-colors duration-300">Terms of Service</a>
+                    <a href="#legal" class="text-white/40 hover:text-atlas-pink transition-colors duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init({
