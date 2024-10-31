@@ -67,6 +67,9 @@
             </h2>
             <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-xl md:text-2xl text-white/60 mb-8">
                 Atlas - Making kids cry since 2024
+            </p>
+        </div>
+    </section>
 
     <!-- login section -->
     <section id="login" class="py-32 relative overflow-hidden">
@@ -126,12 +129,15 @@
         // Authentication functions
         const auth = firebase.auth();
 
+        // Login function with redirect
         document.getElementById('login-btn').onclick = function() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             auth.signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                     document.getElementById('message').textContent = 'Login successful!';
+                    // Redirect to index.html after successful login
+                    window.location.href = 'index.html';
                 })
                 .catch((error) => {
                     document.getElementById('message').textContent = error.message;
