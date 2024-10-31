@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atlas - Roblox Executor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'atlas-purple': '#1a1025',
+                        'atlas-deep': '#0c0817',
+                        'atlas-pink': '#ff3366',
+                        'atlas-accent': '#9d4edd'
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gradient-text {
+            background: linear-gradient(to right, #ff3366, #9d4edd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-atlas-deep font-['Inter'] antialiased">
+    <!-- header -->
+    <header class="fixed w-full z-50 glass-effect bg-atlas-purple/30 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <h1 class="text-2xl font-bold gradient-text">Atlas</h1>
+                </div>
+                <nav class="hidden md:block">
+                    <ul class="flex space-x-8">
+                        <li><a href="#home" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Home</a></li>
+                        <li><a href="#login" class="text-white/70 hover:text-atlas-pink transition-colors duration-300">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- hero -->
+    <section id="home" class="min-h-screen flex items-center justify-center bg-gradient-radial from-atlas-purple to-atlas-deep pt-16 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 data-aos="fade-up" data-aos-duration="1000" class="text-6xl md:text-7xl font-bold mb-6">
+                <span class="gradient-text">Unlock</span> Your
+                <br />
+                Roblox Experience
+            </h2>
+            <p data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200" class="text-xl md:text-2xl text-white/60 mb-8">
+                Atlas - Making kids cry since 2024
+
+    <!-- login section -->
+    <section id="login" class="py-32 relative overflow-hidden">
+        <div class="max-w-md mx-auto px-6 text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8">
+                <span class="gradient-text">Login / Register</span>
+            </h2>
+            <form id="auth-form" class="space-y-4">
+                <div>
+                    <input type="email" id="email" placeholder="Email" required class="w-full p-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-atlas-pink" />
+                </div>
+                <div>
+                    <input type="password" id="password" placeholder="Password" required class="w-full p-4 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-atlas-pink" />
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" id="login-btn" class="px-4 py-2 rounded-md bg-gradient-to-r from-atlas-pink to-atlas-accent text-white font-semibold hover:opacity-90 transition-all duration-300">Login</button>
+                    <button type="button" id="register-btn" class="px-4 py-2 rounded-md bg-gradient-to-r from-atlas-pink to-atlas-accent text-white font-semibold hover:opacity-90 transition-all duration-300">Register</button>
+                </div>
+            </form>
+            <div id="message" class="mt-4 text-white/60"></div>
+        </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="py-12 border-t border-white/5 bg-atlas-deep">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-white/40">&copy; 2024 Atlas. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#legal" class="text-white/40 hover:text-atlas-pink transition-colors duration-300">Terms of Service</a>
+                    <a href="#legal" class="text-white/40 hover:text-atlas-pink transition-colors duration-300">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase setup -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-analytics.js"></script>
+    <script>
+        // Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyDS-boVUe0Dqtd7cpbNUNwfe2BamEFKf8U",
+            authDomain: "atlas-97269.firebaseapp.com",
+            projectId: "atlas-97269",
+            storageBucket: "atlas-97269.appspot.com",
+            messagingSenderId: "713166874458",
+            appId: "1:713166874458:web:128b21716134ed73797563",
+            measurementId: "G-SEMYQXNCHY"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+
+        // Authentication functions
+        const auth = firebase.auth();
+
+        document.getElementById('login-btn').onclick = function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    document.getElementById('message').textContent = 'Login successful!';
+                })
+                .catch((error) => {
+                    document.getElementById('message').textContent = error.message;
+                });
+        };
+
+        document.getElementById('register-btn').onclick = function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    document.getElementById('message').textContent = 'Registration successful!';
+                })
+                .catch((error) => {
+                    document.getElementById('message').textContent = error.message;
+                });
+        };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 1000,
+                once: true,
+                offset: 100,
+                easing: 'ease-out-cubic'
+            });
+        });
+    </script>
+</body>
+</html>
